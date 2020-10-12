@@ -1,16 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-const Aside = () => {
+const Aside = (props) => {
+  const style = {
+    backgroundImage: "url('/assets/images/mechanic.jpg')"
+  };
+
   return (
     <div className="aside">
-      <div className="illustration" />
-      <img className="logo" src="" alt="logo" />
-      <h1>Mon garage</h1>
+      <div className="illustration" style={style} />
+      <img className="logo" src="../../assets/images/garage-logo.jpg" alt="logo" />
+      <h1>{props.garage}</h1>
       <p>Our garage is the best. Reasonable prices, always on time, we are the best (and fictionnal).</p>
-      <Link className="btn btn-primary btn-cta" to="/cars/new">
-        Add a car
-      </Link>
+      {props.children}
     </div>
   );
 };

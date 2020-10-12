@@ -1,20 +1,31 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 
 import Aside from '../components/aside';
+import { removeCar } from '../actions';
 
 class CarsShow extends Component {
-  render() {
+  handleClick = () => {
+    this.props.removeCar(this.props.history, this.props.car);
+  }
+
+  render () {
     const car = this.props.car;
     if (!car) {
-      return <p>Loading...</p>;
+      return (
+        <Aside key="aside" garage={this.props.garage}>
+          <Link to="/">Back to list</Link>
+        </Aside>);
     }
     return [
-      <Aside key="aside" />,
+      <Aside key="aside" garage={this.props.garage}>
+        <Link to="/">Back to list</Link>
+      </Aside>,
       <div className="car-container" key="car">
         <div className="car-card">
-          <img className="car-picture" src="" alt="car pic" />
+          <img className="car-picture" src="../../assets/images/car-logo.jpg" alt="car-pic" />
           <div className="car-details">
             <span>{car.brand} - {car.model}</span>
             <ul>
@@ -22,7 +33,10 @@ class CarsShow extends Component {
             </ul>
             <span className="plate">{car.plate}</span>
           </div>
-          <Link to="/">Back to list</Link>
+          <button className="delete" onClick={this.handleClick}>
+            <i className="fa fa-trash-o" aria-hidden="true" />
+            Delete
+          </button>
         </div>
       </div>
     ];
@@ -36,4 +50,8 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(CarsShow);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ removeCar }, dispatch);
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarsShow));
