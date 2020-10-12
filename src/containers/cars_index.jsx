@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+
 import { fetchCars } from '../actions';
 import Aside from '../components/aside';
 
@@ -14,12 +15,14 @@ class CarsIndex extends Component {
   renderCars() {
     return this.props.cars.map((car) => {
       return (
-        <div className="car-smallad" key={car.id}>
-          <img className="car-logo" alt="logo" src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/skateboard.jpg" />
-          <div className="car-details">
-            <span>{car.brand} - {car.model}</span>
-            <p><strong>Owner:</strong> {car.owner}</p>
-          </div>
+        <div className="car-smallad" key={car.id} >
+          <Link to={`/cars/${car.id}`} key={car.id}>
+            <img className="car-logo" alt="logo" src="" />
+            <div className="car-details">
+              <span>{car.brand} - {car.model}</span>
+              <p><strong>Owner:</strong> {car.owner}</p>
+            </div>
+          </Link>
         </div>
       );
     });
@@ -27,10 +30,10 @@ class CarsIndex extends Component {
 
   render() {
     return [
-      <Aside />,
-      <div className="list-container">
+      <Aside key="aside" />,
+      <div className="list-container" key="cars">
         {this.renderCars()}
-      </div>
+      </div>,
     ];
   }
 }
