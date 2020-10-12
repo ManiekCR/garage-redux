@@ -4,12 +4,19 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
 import Aside from '../components/aside';
-import { removeCar } from '../actions';
+import { removeCar, fetchCar } from '../actions';
 
 class CarsShow extends Component {
+  componentDidMount() {
+    if (!this.props.car) {
+      this.props.fetchCar(this.props.match.params.id);
+    }
+  }
+
   handleClick = () => {
     this.props.removeCar(this.props.history, this.props.car);
   }
+
 
   render () {
     const car = this.props.car;
@@ -51,7 +58,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ removeCar }, dispatch);
+  return bindActionCreators({ removeCar, fetchCar }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CarsShow));
